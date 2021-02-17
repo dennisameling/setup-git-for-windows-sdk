@@ -1,36 +1,28 @@
-name: 'build-test'
-on: # rebuild any PRs and main branch changes
-  pull_request:
+name: 'test'
+on:
   push:
-    tags:
     branches:
-      - main
-      - 'v[0-9]*'
+      - test
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
-      - run: npm run package
-      - name: Verify that `dist/index.js` is up to date
-        shell: bash
-        run: |
-          # `ncc` produces output with mixed line endings
-          test -z "$(git diff -w HEAD | tee diff.txt)" || {
-            echo 'Files changed after `npm run package`'
-            cat diff.txt
-            exit 1
-          }
   test: # make sure the action works on a clean machine without building
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [full] # [minimal, makepkg-git, build-installers, full]
+        architecture: [x86_64, i686]
+        exclude:
+          - flavor: minimal
+            architecture: i686
+          - flavor: makepkg-git
+            architecture: i686
     steps:
-      - uses: actions/checkout@v2
-      - name: Run this Action in-place
-        uses: ./
+      - name: Set up ${{matrix.flavor}} ${{matrix.architecture}}
+        uses: dscho/setup-git-for-windows-sdk@test
+        with:
+          flavor: ${{matrix.flavor}}
+          architecture: ${{matrix.architecture}}
       - name: Verify that the Bash of Git for Windows' SDK is used
         shell: bash
         run: |
@@ -47,3 +39,5 @@ jobs:
           gcc -o hello-world.exe hello-world.c
           hello="$(./hello-world.exe)"
           test 'Hello, world!' = "$hello"
+          ls -l /.sparse/ || :
+          ls -l /
