@@ -63,7 +63,8 @@ function run() {
             const verbose = core.getInput('verbose');
             const msysMode = core.getInput('msys') === 'true';
             const { artifactName, download, id } = yield (0, git_1.getViaGit)(flavor, architecture);
-            const outputDirectory = core.getInput('path') || `C:/${artifactName}`;
+            core.info(`RUNNER_TEMP is ${process_1.default.env['RUNNER_TEMP']}`);
+            const outputDirectory = `${process_1.default.env['RUNNER_TEMP']}/${artifactName}`;
             let useCache;
             switch (core.getInput('cache')) {
                 case 'true':

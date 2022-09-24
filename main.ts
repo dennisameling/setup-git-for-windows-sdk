@@ -26,7 +26,8 @@ async function run(): Promise<void> {
     const msysMode = core.getInput('msys') === 'true'
 
     const {artifactName, download, id} = await getViaGit(flavor, architecture)
-    const outputDirectory = core.getInput('path') || `C:/${artifactName}`
+    core.info(`RUNNER_TEMP is ${process.env['RUNNER_TEMP']}`)
+    const outputDirectory = `${process.env['RUNNER_TEMP']}/${artifactName}`
     let useCache: boolean
     switch (core.getInput('cache')) {
       case 'true':
