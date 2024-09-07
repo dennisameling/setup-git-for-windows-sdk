@@ -444,6 +444,18 @@ function getViaGit(flavor, architecture, githubToken) {
                     const traceArg = verbose ? ['-x'] : [];
                     core.info(`PATH: ${exports.gitForWindowsUsrBinPath}${path_1.delimiter}${process.env.PATH}`);
                     core.info(`gitForWindowsUsrBinPath: ${exports.gitForWindowsUsrBinPath}`);
+                    // TMP add some debugging to please.sh
+                    const path = '.tmp/build-extra/please.sh';
+                    // Step 1: Read the file synchronously
+                    const data = fs.readFileSync(path, 'utf8');
+                    // Step 2: Split the content into lines
+                    const lines = data.split('\n');
+                    // Append the new line to the second line
+                    lines[1] += `echo "Path is $PATH"`;
+                    // Step 4: Join the lines back together
+                    const updatedContent = lines.join('\n');
+                    // Step 5: Write the updated content back to the file synchronously
+                    fs.writeFileSync(path, updatedContent, 'utf8');
                     child = (0, child_process_1.spawn)(`${exports.gitForWindowsUsrBinPath}/bash.exe`, [
                         ...traceArg,
                         '.tmp/build-extra/please.sh',
