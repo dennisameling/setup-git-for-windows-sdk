@@ -442,6 +442,8 @@ function getViaGit(flavor, architecture, githubToken) {
                     core.endGroup();
                     core.startGroup(`Creating ${flavor} artifact`);
                     const traceArg = verbose ? ['-x'] : [];
+                    core.info(`PATH: ${exports.gitForWindowsUsrBinPath}${path_1.delimiter}${process.env.PATH}`);
+                    core.info(`gitForWindowsUsrBinPath: ${exports.gitForWindowsUsrBinPath}`);
                     child = (0, child_process_1.spawn)(`${exports.gitForWindowsUsrBinPath}/bash.exe`, [
                         ...traceArg,
                         '.tmp/build-extra/please.sh',

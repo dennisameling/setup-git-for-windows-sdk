@@ -196,6 +196,10 @@ export async function getViaGit(
 
         core.startGroup(`Creating ${flavor} artifact`)
         const traceArg = verbose ? ['-x'] : []
+        core.info(
+          `PATH: ${gitForWindowsUsrBinPath}${delimiter}${process.env.PATH}`
+        )
+        core.info(`gitForWindowsUsrBinPath: ${gitForWindowsUsrBinPath}`)
         child = spawn(
           `${gitForWindowsUsrBinPath}/bash.exe`,
           [
