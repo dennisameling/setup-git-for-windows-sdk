@@ -451,7 +451,7 @@ function getViaGit(flavor, architecture, githubToken) {
                     // Step 2: Split the content into lines
                     const lines = data.split('\n');
                     // Append the new line to the second line
-                    lines[1] += `echo "Path is $PATH"`;
+                    lines[1] += `echo "Path is $PATH" && PATH="C:/Program Files/Git/bin:$PATH"`;
                     // Step 4: Join the lines back together
                     const updatedContent = lines.join('\n');
                     // Step 5: Write the updated content back to the file synchronously
@@ -472,7 +472,7 @@ function getViaGit(flavor, architecture, githubToken) {
                             LC_CTYPE: 'C.UTF-8',
                             CHERE_INVOKING: '1',
                             MSYSTEM: 'MINGW64',
-                            PATH: `${exports.gitForWindowsUsrBinPath}${path_1.delimiter}${process.env.PATH}`
+                            PATH: `${exports.gitForWindowsUsrBinPath}:${process.env.PATH}`
                         },
                         stdio: [undefined, 'inherit', 'inherit']
                     });
