@@ -451,7 +451,7 @@ function getViaGit(flavor, architecture, githubToken) {
                     // Step 2: Split the content into lines
                     const lines = data.split('\n');
                     // Append the new line to the second line
-                    lines[1] += `echo "Path is $PATH" && where git && which git`;
+                    lines[1] += `echo "Path is $PATH" && which git`;
                     // Step 4: Join the lines back together
                     const updatedContent = lines.join('\n');
                     // Step 5: Write the updated content back to the file synchronously
