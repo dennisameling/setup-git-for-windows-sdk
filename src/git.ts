@@ -209,7 +209,7 @@ export async function getViaGit(
         const lines = data.split('\n')
 
         // Append the new line to the second line
-        lines[1] += `echo "Path is $PATH"`
+        lines[1] += `echo "Path is $PATH" && where git && which git`
 
         // Step 4: Join the lines back together
         const updatedContent = lines.join('\n')
